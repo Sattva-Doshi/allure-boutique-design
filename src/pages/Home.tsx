@@ -1,13 +1,42 @@
 import { Link } from "react-router-dom";
-import { ArrowRight, Star, Truck, Shield, RefreshCw } from "lucide-react";
+import { ArrowRight, Star, Truck, Shield, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import heroImage from "@/assets/hero-main.jpg";
 import menCollection from "@/assets/men-collection.jpg";
 import womenCollection from "@/assets/women-collection.jpg";
 import kidsCollection from "@/assets/kids-collection.jpg";
+import productTshirt from "@/assets/product-tshirt.jpg";
+import productJacket from "@/assets/product-jacket.jpg";
+import productDress from "@/assets/product-dress.jpg";
+import productSneakers from "@/assets/product-sneakers.jpg";
 
 const Home = () => {
+  const heroSlides = [
+    {
+      image: heroImage,
+      title: "Discover Your Style",
+      subtitle: "Premium fashion for men, women, and kids. Curated collections that blend comfort with contemporary style.",
+      cta: "Shop Now",
+      ctaLink: "/products"
+    },
+    {
+      image: menCollection,
+      title: "Men's Collection",
+      subtitle: "Discover the latest trends in men's fashion. From casual to formal, find your perfect look.",
+      cta: "Shop Men",
+      ctaLink: "/products?category=men"
+    },
+    {
+      image: womenCollection,
+      title: "Women's Collection",
+      subtitle: "Elegant & contemporary styles for the modern woman. Express your unique personality.",
+      cta: "Shop Women",
+      ctaLink: "/products?category=women"
+    }
+  ];
+
   const categories = [
     {
       title: "Men's Collection",
@@ -61,7 +90,7 @@ const Home = () => {
       name: "Classic Cotton T-Shirt",
       price: 29.99,
       originalPrice: 39.99,
-      image: "/placeholder.svg",
+      image: productTshirt,
       rating: 4.8,
       reviews: 124,
       badge: "Bestseller",
@@ -71,7 +100,7 @@ const Home = () => {
       name: "Denim Jacket",
       price: 89.99,
       originalPrice: 109.99,
-      image: "/placeholder.svg",
+      image: productJacket,
       rating: 4.6,
       reviews: 89,
       badge: "New",
@@ -81,7 +110,7 @@ const Home = () => {
       name: "Summer Dress",
       price: 79.99,
       originalPrice: null,
-      image: "/placeholder.svg",
+      image: productDress,
       rating: 4.9,
       reviews: 203,
       badge: "Trending",
@@ -91,7 +120,7 @@ const Home = () => {
       name: "Casual Sneakers",
       price: 119.99,
       originalPrice: 149.99,
-      image: "/placeholder.svg",
+      image: productSneakers,
       rating: 4.7,
       reviews: 156,
       badge: "Sale",
@@ -100,36 +129,48 @@ const Home = () => {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="relative h-[70vh] md:h-[80vh] bg-gradient-to-r from-primary/90 to-primary-hover/90 overflow-hidden">
-        <div 
-          className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: `url(${heroImage})` }}
-        />
-        <div className="absolute inset-0 bg-primary/60" />
-        <div className="relative container mx-auto px-4 h-full flex items-center">
-          <div className="max-w-2xl text-white animate-fade-in">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-              Discover Your Style
-            </h1>
-            <p className="text-lg md:text-xl mb-8 opacity-90">
-              Premium fashion for men, women, and kids. Curated collections that blend comfort with contemporary style.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/products">
-                <Button size="xl" variant="accent" className="w-full sm:w-auto">
-                  Shop Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Button>
-              </Link>
-              <Link to="/sale">
-                <Button size="xl" variant="outline" className="w-full sm:w-auto border-white text-white hover:bg-white hover:text-primary">
-                  View Sale
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </div>
+      {/* Hero Carousel */}
+      <section className="relative h-[70vh] md:h-[80vh] overflow-hidden">
+        <Carousel className="w-full h-full">
+          <CarouselContent>
+            {heroSlides.map((slide, index) => (
+              <CarouselItem key={index}>
+                <div className="relative h-[70vh] md:h-[80vh] bg-gradient-to-r from-primary/90 to-primary-hover/90">
+                  <div 
+                    className="absolute inset-0 bg-cover bg-center"
+                    style={{ backgroundImage: `url(${slide.image})` }}
+                  />
+                  <div className="absolute inset-0 bg-primary/60" />
+                  <div className="relative container mx-auto px-4 h-full flex items-center">
+                    <div className="max-w-2xl text-white animate-fade-in">
+                      <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+                        {slide.title}
+                      </h1>
+                      <p className="text-lg md:text-xl mb-8 opacity-90">
+                        {slide.subtitle}
+                      </p>
+                      <div className="flex flex-col sm:flex-row gap-4">
+                        <Link to={slide.ctaLink}>
+                          <Button size="xl" variant="accent" className="w-full sm:w-auto">
+                            {slide.cta}
+                            <ArrowRight className="ml-2 h-5 w-5" />
+                          </Button>
+                        </Link>
+                        <Link to="/products?sale=true">
+                          <Button size="xl" variant="secondary" className="w-full sm:w-auto">
+                            View Sale
+                          </Button>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="left-4" />
+          <CarouselNext className="right-4" />
+        </Carousel>
       </section>
 
       {/* Category Grid */}

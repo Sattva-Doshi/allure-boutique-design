@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import productTshirt from "@/assets/product-tshirt.jpg";
+import productJacket from "@/assets/product-jacket.jpg";
+import productDress from "@/assets/product-dress.jpg";
+import productSneakers from "@/assets/product-sneakers.jpg";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -28,10 +32,10 @@ const ProductDetail = () => {
     inStock: true,
     stockCount: 15,
     images: [
-      "/placeholder.svg",
-      "/placeholder.svg",
-      "/placeholder.svg",
-      "/placeholder.svg",
+      productTshirt,
+      productTshirt,
+      productTshirt,
+      productTshirt,
     ],
     sizes: [
       { size: "XS", available: true },
@@ -90,10 +94,10 @@ const ProductDetail = () => {
   ];
 
   const relatedProducts = [
-    { id: 2, name: "Polo Shirt", price: 59.99, image: "/placeholder.svg" },
-    { id: 3, name: "Denim Jacket", price: 89.99, image: "/placeholder.svg" },
-    { id: 4, name: "Casual Pants", price: 79.99, image: "/placeholder.svg" },
-    { id: 5, name: "Summer Shorts", price: 39.99, image: "/placeholder.svg" },
+    { id: 2, name: "Polo Shirt", price: 59.99, image: productTshirt },
+    { id: 3, name: "Denim Jacket", price: 89.99, image: productJacket },
+    { id: 4, name: "Casual Pants", price: 79.99, image: productDress },
+    { id: 5, name: "Summer Shorts", price: 39.99, image: productSneakers },
   ];
 
   const handleQuantityChange = (delta: number) => {
