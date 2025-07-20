@@ -6,12 +6,14 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Slider } from "@/components/ui/slider";
+import { useCart } from "@/contexts/CartContext";
 
 const Products = () => {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [priceRange, setPriceRange] = useState([0, 500]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
+  const { addToCart, addToWishlist, isInWishlist } = useCart();
 
   // Mock product data
   const products = Array.from({ length: 12 }, (_, i) => ({
@@ -51,6 +53,31 @@ const Products = () => {
     setSelectedColors(prev =>
       prev.includes(color) ? prev.filter(c => c !== color) : [...prev, color]
     );
+  };
+
+  const handleAddToCart = (product: any) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image,
+      size: "M", // Default size
+      color: "Default", // Default color
+      inStock: true,
+    });
+  };
+
+  const handleAddToWishlist = (product: any) => {
+    addToWishlist({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      originalPrice: product.originalPrice,
+      image: product.image,
+      inStock: true,
+      category: product.category,
+    });
   };
 
   return (
@@ -226,15 +253,21 @@ const Products = () => {
                    <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                      <Button 
                        size="icon-sm" 
-                       variant="wishlist"
-                       onClick={(e) => e.preventDefault()}
+                       variant={isInWishlist(product.id) ? "wishlist" : "ghost"}
+                       onClick={(e) => {
+                         e.preventDefault();
+                         handleAddToWishlist(product);
+                       }}
                      >
-                       <Heart className="h-4 w-4" />
+                       <Heart className={`h-4 w-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
                      </Button>
                      <Button 
                        size="icon-sm" 
                        variant="cart"
-                       onClick={(e) => e.preventDefault()}
+                       onClick={(e) => {
+                         e.preventDefault();
+                         handleAddToCart(product);
+                       }}
                      >
                        <ShoppingBag className="h-4 w-4" />
                      </Button>
@@ -284,16 +317,22 @@ const Products = () => {
                        <div className="flex gap-2 ml-4">
                          <Button 
                            size="sm" 
-                           variant="wishlist"
-                           onClick={(e) => e.preventDefault()}
+                           variant={isInWishlist(product.id) ? "wishlist" : "outline"}
+                           onClick={(e) => {
+                             e.preventDefault();
+                             handleAddToWishlist(product);
+                           }}
                          >
-                           <Heart className="h-4 w-4 mr-2" />
-                           Wishlist
+                           <Heart className={`h-4 w-4 mr-2 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
+                           {isInWishlist(product.id) ? 'In Wishlist' : 'Wishlist'}
                          </Button>
                          <Button 
                            size="sm" 
                            variant="cart"
-                           onClick={(e) => e.preventDefault()}
+                           onClick={(e) => {
+                             e.preventDefault();
+                             handleAddToCart(product);
+                           }}
                          >
                            <ShoppingBag className="h-4 w-4 mr-2" />
                            Add to Cart
@@ -306,7 +345,10 @@ const Products = () => {
                      <Button 
                        className="w-full" 
                        variant="cart"
-                       onClick={(e) => e.preventDefault()}
+                       onClick={(e) => {
+                         e.preventDefault();
+                         handleAddToCart(product);
+                       }}
                      >
                        <ShoppingBag className="h-4 w-4 mr-2" />
                        Add to Cart

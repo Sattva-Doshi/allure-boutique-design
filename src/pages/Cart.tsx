@@ -4,29 +4,13 @@ import { Minus, Plus, X, ArrowRight, ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useCart } from "@/contexts/CartContext";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, updateQuantity, removeFromCart, cartCount } = useCart();
 
   const [promoCode, setPromoCode] = useState("");
   const [appliedPromo, setAppliedPromo] = useState(null);
-
-  const updateQuantity = (id: number, newQuantity: number) => {
-    if (newQuantity === 0) {
-      removeItem(id);
-      return;
-    }
-    setCartItems(items =>
-      items.map(item =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const removeItem = (id: number) => {
-    setCartItems(items => items.filter(item => item.id !== id));
-  };
-
   const applyPromoCode = () => {
     // Mock promo code logic
     if (promoCode.toLowerCase() === "save10") {
@@ -76,7 +60,7 @@ const Cart = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8">Shopping Cart ({cartItems.length} items)</h1>
+      <h1 className="text-3xl font-bold mb-8">Shopping Cart ({cartCount} items)</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Cart Items */}
@@ -107,7 +91,7 @@ const Cart = () => {
                       <Button
                         variant="ghost"
                         size="icon-sm"
-                        onClick={() => removeItem(item.id)}
+                        onClick={() => removeFromCart(item.id)}
                       >
                         <X className="h-4 w-4" />
                       </Button>
@@ -202,7 +186,7 @@ const Cart = () => {
               
               <div className="space-y-3">
                 <div className="flex justify-between">
-                  <span>Subtotal ({cartItems.length} items)</span>
+                  <span>Subtotal ({cartCount} items)</span>
                   <span>${subtotal.toFixed(2)}</span>
                 </div>
                 

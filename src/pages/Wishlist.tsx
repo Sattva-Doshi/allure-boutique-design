@@ -1,25 +1,28 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Heart, ShoppingBag, X, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useCart } from "@/contexts/CartContext";
 
 const Wishlist = () => {
-  const [wishlistItems, setWishlistItems] = useState([]);
+  const { wishlistItems, removeFromWishlist, addToCart, wishlistCount } = useCart();
 
-  const removeFromWishlist = (id: number) => {
-    setWishlistItems(items => items.filter(item => item.id !== id));
-  };
-
-  const addToCart = (id: number) => {
-    // In a real app, this would add the item to cart
-    console.log(`Adding item ${id} to cart`);
+  const handleAddToCart = (item: any) => {
+    addToCart({
+      id: item.id,
+      name: item.name,
+      price: item.price,
+      originalPrice: item.originalPrice,
+      image: item.image,
+      size: "M", // Default size
+      color: "Default", // Default color
+      inStock: item.inStock,
+    });
   };
 
   const addAllToCart = () => {
     const availableItems = wishlistItems.filter(item => item.inStock);
-    // In a real app, this would add all available items to cart
-    console.log(`Adding ${availableItems.length} items to cart`);
+    availableItems.forEach(item => handleAddToCart(item));
   };
 
   if (wishlistItems.length === 0) {
@@ -49,7 +52,7 @@ const Wishlist = () => {
         <div>
           <h1 className="text-3xl font-bold">My Wishlist</h1>
           <p className="text-muted-foreground">
-            {wishlistItems.length} {wishlistItems.length === 1 ? 'item' : 'items'} saved for later
+            {wishlistCount} {wishlistCount === 1 ? 'item' : 'items'} saved for later
           </p>
         </div>
         
@@ -132,7 +135,7 @@ const Wishlist = () => {
                   className="w-full" 
                   variant={item.inStock ? "cart" : "outline"}
                   disabled={!item.inStock}
-                  onClick={() => item.inStock && addToCart(item.id)}
+                  onClick={() => item.inStock && handleAddToCart(item)}
                 >
                   <ShoppingBag className="h-4 w-4 mr-2" />
                   {item.inStock ? "Add to Cart" : "Out of Stock"}
