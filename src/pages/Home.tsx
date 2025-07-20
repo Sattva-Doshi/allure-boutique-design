@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 import { ArrowRight, Star, Truck, Shield, RefreshCw, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
+import Autoplay from "embla-carousel-autoplay";
 import heroImage from "@/assets/hero-main.jpg";
 import menCollection from "@/assets/men-collection.jpg";
 import womenCollection from "@/assets/women-collection.jpg";
@@ -131,7 +133,14 @@ const Home = () => {
     <div>
       {/* Hero Carousel */}
       <section className="relative h-[70vh] md:h-[80vh] overflow-hidden">
-        <Carousel className="w-full h-full">
+        <Carousel 
+          className="w-full h-full"
+          plugins={[
+            Autoplay({
+              delay: 4000,
+            }),
+          ]}
+        >
           <CarouselContent>
             {heroSlides.map((slide, index) => (
               <CarouselItem key={index}>

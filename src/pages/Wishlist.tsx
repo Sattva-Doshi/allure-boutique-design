@@ -5,62 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 
 const Wishlist = () => {
-  const [wishlistItems, setWishlistItems] = useState([
-    {
-      id: 1,
-      name: "Premium Cotton T-Shirt",
-      price: 49.99,
-      originalPrice: 69.99,
-      image: "/placeholder.svg",
-      inStock: true,
-      category: "Men's Tops",
-    },
-    {
-      id: 2,
-      name: "Summer Dress",
-      price: 79.99,
-      originalPrice: null,
-      image: "/placeholder.svg",
-      inStock: true,
-      category: "Women's Dresses",
-    },
-    {
-      id: 3,
-      name: "Denim Jacket",
-      price: 89.99,
-      originalPrice: 109.99,
-      image: "/placeholder.svg",
-      inStock: false,
-      category: "Women's Outerwear",
-    },
-    {
-      id: 4,
-      name: "Casual Sneakers",
-      price: 119.99,
-      originalPrice: 149.99,
-      image: "/placeholder.svg",
-      inStock: true,
-      category: "Footwear",
-    },
-    {
-      id: 5,
-      name: "Kids T-Shirt",
-      price: 24.99,
-      originalPrice: null,
-      image: "/placeholder.svg",
-      inStock: true,
-      category: "Kids' Clothing",
-    },
-    {
-      id: 6,
-      name: "Polo Shirt",
-      price: 59.99,
-      originalPrice: 79.99,
-      image: "/placeholder.svg",
-      inStock: true,
-      category: "Men's Tops",
-    },
-  ]);
+  const [wishlistItems, setWishlistItems] = useState([]);
 
   const removeFromWishlist = (id: number) => {
     setWishlistItems(items => items.filter(item => item.id !== id));

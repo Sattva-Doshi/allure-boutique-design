@@ -6,41 +6,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: "Premium Cotton T-Shirt",
-      price: 49.99,
-      originalPrice: 69.99,
-      size: "M",
-      color: "Black",
-      quantity: 2,
-      image: "/placeholder.svg",
-      inStock: true,
-    },
-    {
-      id: 2,
-      name: "Denim Jacket",
-      price: 89.99,
-      originalPrice: null,
-      size: "L",
-      color: "Blue",
-      quantity: 1,
-      image: "/placeholder.svg",
-      inStock: true,
-    },
-    {
-      id: 3,
-      name: "Summer Dress",
-      price: 79.99,
-      originalPrice: 99.99,
-      size: "S",
-      color: "White",
-      quantity: 1,
-      image: "/placeholder.svg",
-      inStock: false,
-    },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
 
   const [promoCode, setPromoCode] = useState("");
   const [appliedPromo, setAppliedPromo] = useState(null);

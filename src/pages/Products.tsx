@@ -195,12 +195,12 @@ const Products = () => {
               : "space-y-4"
           }>
             {products.map((product) => (
-              <Card
-                key={product.id}
-                className={`overflow-hidden shadow-product hover:shadow-product-hover transition-all duration-300 group ${
-                  viewMode === "list" ? "flex" : "hover:-translate-y-1"
-                }`}
-              >
+              <Link key={product.id} to={`/product/${product.id}`}>
+                <Card
+                  className={`overflow-hidden shadow-product hover:shadow-product-hover transition-all duration-300 group cursor-pointer ${
+                    viewMode === "list" ? "flex" : "hover:-translate-y-1"
+                  }`}
+                >
                 <div className={`relative ${viewMode === "list" ? "w-48" : "aspect-square"} bg-gray-100 overflow-hidden`}>
                   <img
                     src={product.image}
@@ -222,25 +222,31 @@ const Products = () => {
                     )}
                   </div>
 
-                  {/* Quick Actions */}
-                  <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <Button size="icon-sm" variant="wishlist">
-                      <Heart className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon-sm" variant="cart">
-                      <ShoppingBag className="h-4 w-4" />
-                    </Button>
-                  </div>
+                   {/* Quick Actions */}
+                   <div className="absolute top-2 right-2 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                     <Button 
+                       size="icon-sm" 
+                       variant="wishlist"
+                       onClick={(e) => e.preventDefault()}
+                     >
+                       <Heart className="h-4 w-4" />
+                     </Button>
+                     <Button 
+                       size="icon-sm" 
+                       variant="cart"
+                       onClick={(e) => e.preventDefault()}
+                     >
+                       <ShoppingBag className="h-4 w-4" />
+                     </Button>
+                   </div>
                 </div>
 
                 <CardContent className={`p-4 ${viewMode === "list" ? "flex-1" : ""}`}>
                   <div className={viewMode === "list" ? "flex justify-between items-start" : ""}>
                     <div className={viewMode === "list" ? "flex-1" : ""}>
-                      <Link to={`/product/${product.id}`} className="group">
-                        <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
-                          {product.name}
-                        </h3>
-                      </Link>
+                      <h3 className="font-semibold mb-2 group-hover:text-primary transition-colors">
+                        {product.name}
+                      </h3>
                       
                       <div className="flex items-center mb-2">
                         <div className="flex items-center">
@@ -274,28 +280,41 @@ const Products = () => {
                       )}
                     </div>
 
-                    {viewMode === "list" && (
-                      <div className="flex gap-2 ml-4">
-                        <Button size="sm" variant="wishlist">
-                          <Heart className="h-4 w-4 mr-2" />
-                          Wishlist
-                        </Button>
-                        <Button size="sm" variant="cart">
-                          <ShoppingBag className="h-4 w-4 mr-2" />
-                          Add to Cart
-                        </Button>
-                      </div>
-                    )}
-                  </div>
+                     {viewMode === "list" && (
+                       <div className="flex gap-2 ml-4">
+                         <Button 
+                           size="sm" 
+                           variant="wishlist"
+                           onClick={(e) => e.preventDefault()}
+                         >
+                           <Heart className="h-4 w-4 mr-2" />
+                           Wishlist
+                         </Button>
+                         <Button 
+                           size="sm" 
+                           variant="cart"
+                           onClick={(e) => e.preventDefault()}
+                         >
+                           <ShoppingBag className="h-4 w-4 mr-2" />
+                           Add to Cart
+                         </Button>
+                       </div>
+                     )}
+                   </div>
 
-                  {viewMode === "grid" && (
-                    <Button className="w-full" variant="cart">
-                      <ShoppingBag className="h-4 w-4 mr-2" />
-                      Add to Cart
-                    </Button>
-                  )}
+                   {viewMode === "grid" && (
+                     <Button 
+                       className="w-full" 
+                       variant="cart"
+                       onClick={(e) => e.preventDefault()}
+                     >
+                       <ShoppingBag className="h-4 w-4 mr-2" />
+                       Add to Cart
+                     </Button>
+                   )}
                 </CardContent>
-              </Card>
+                </Card>
+              </Link>
             ))}
           </div>
 
