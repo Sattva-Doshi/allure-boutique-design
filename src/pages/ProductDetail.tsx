@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Star, Heart, ShoppingBag, Plus, Minus, Share2, ChevronRight } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -12,6 +13,7 @@ import productSneakers from "@/assets/product-sneakers.jpg";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const { addToCart, addToWishlist, removeFromWishlist, isInWishlist } = useCart();
   const [selectedSize, setSelectedSize] = useState("");
   const [selectedColor, setSelectedColor] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -102,6 +104,39 @@ const ProductDetail = () => {
 
   const handleQuantityChange = (delta: number) => {
     setQuantity(prev => Math.max(1, prev + delta));
+  };
+
+  const handleAddToCart = () => {
+    if (!selectedSize || !selectedColor) return;
+    
+    for (let i = 0; i < quantity; i++) {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        image: product.images[0],
+        size: selectedSize,
+        color: selectedColor,
+        inStock: product.inStock,
+      });
+    }
+  };
+
+  const handleWishlistToggle = () => {
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        originalPrice: product.originalPrice,
+        image: product.images[0],
+        inStock: product.inStock,
+        category: product.category,
+      });
+    }
   };
 
   const breadcrumbs = [
@@ -282,12 +317,17 @@ const ProductDetail = () => {
                 variant="cart" 
                 className="flex-1"
                 disabled={!selectedSize || !selectedColor}
+                onClick={handleAddToCart}
               >
                 <ShoppingBag className="h-5 w-5 mr-2" />
                 Add to Cart
               </Button>
-              <Button size="lg" variant="wishlist">
-                <Heart className="h-5 w-5" />
+              <Button 
+                size="lg" 
+                variant={isInWishlist(product.id) ? "default" : "wishlist"}
+                onClick={handleWishlistToggle}
+              >
+                <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? "fill-current" : ""}`} />
               </Button>
             </div>
             <Button size="lg" variant="premium" className="w-full">
@@ -402,7 +442,19 @@ const ProductDetail = () => {
                 </h3>
                 <div className="flex items-center justify-between">
                   <span className="font-bold">${item.price}</span>
-                  <Button size="sm" variant="cart">
+                  <Button 
+                    size="sm" 
+                    variant="cart"
+                    onClick={() => addToCart({
+                      id: item.id,
+                      name: item.name,
+                      price: item.price,
+                      image: item.image,
+                      size: "M",
+                      color: "Default",
+                      inStock: true,
+                    })}
+                  >
                     Add to Cart
                   </Button>
                 </div>
