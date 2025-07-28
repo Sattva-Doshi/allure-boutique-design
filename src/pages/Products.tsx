@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Filter, Grid, List, Star, Heart, ShoppingBag } from "lucide-react";
+import productTshirt from "@/assets/product-tshirt.jpg";
+import productJacket from "@/assets/product-jacket.jpg";
+import productDress from "@/assets/product-dress.jpg";
+import productSneakers from "@/assets/product-sneakers.jpg";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -15,13 +19,34 @@ const Products = () => {
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const { addToCart, addToWishlist, isInWishlist } = useCart();
 
-  // Mock product data
+  // Mock product data with real images and names
+  const productNames = [
+    "Premium Cotton T-Shirt", "Classic Denim Jacket", "Summer Floral Dress", "Running Sneakers",
+    "Wool Sweater", "Leather Boots", "Casual Chinos", "Sports Hoodie",
+    "Silk Blouse", "Winter Coat", "Board Shorts", "Yoga Leggings"
+  ];
+
+  const productImages = [
+    productTshirt,
+    productJacket, 
+    productDress,
+    productSneakers,
+    productTshirt,
+    productJacket,
+    productDress, 
+    productSneakers,
+    productTshirt,
+    productJacket,
+    productDress,
+    productSneakers
+  ];
+
   const products = Array.from({ length: 12 }, (_, i) => ({
     id: i + 1,
-    name: `Product ${i + 1}`,
+    name: productNames[i],
     price: Math.floor(Math.random() * 200) + 20,
     originalPrice: Math.random() > 0.5 ? Math.floor(Math.random() * 250) + 50 : null,
-    image: "/placeholder.svg",
+    image: productImages[i],
     rating: Math.round((Math.random() * 2 + 3) * 10) / 10,
     reviews: Math.floor(Math.random() * 200) + 10,
     category: ["Men", "Women", "Kids"][Math.floor(Math.random() * 3)],

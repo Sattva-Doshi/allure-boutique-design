@@ -330,7 +330,17 @@ const ProductDetail = () => {
                 <Heart className={`h-5 w-5 ${isInWishlist(product.id) ? "fill-current" : ""}`} />
               </Button>
             </div>
-            <Button size="lg" variant="premium" className="w-full">
+            <Button 
+              size="lg" 
+              variant="premium" 
+              className="w-full"
+              disabled={!selectedSize || !selectedColor}
+              onClick={() => {
+                handleAddToCart();
+                // Navigate to checkout or show success message
+                console.log("Redirecting to checkout...");
+              }}
+            >
               Buy Now
             </Button>
           </div>
